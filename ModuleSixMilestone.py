@@ -7,6 +7,7 @@
 
 
 import os #import os for clear screen function
+import time #import time -- was using input(press enter) to slow progress before screen clear, but time.sleep works great
 
 
 def clear_screen():
@@ -16,14 +17,15 @@ def clear_screen():
 
 def greeting():
     """Greet player and introduce game plot"""
-    print('\n\n\tWelcome to the dragon-game, where you must search a castle for 6 items\n'
+    print('\n\n\t\t', '*' * 48) #my attempt at formatting the introduction message to make it nicer
+    print('\tWelcome to the dragon-game, where you must search a castle for 6 items\n'
           '\tand confront the dragon. Make sure you have all items before the fight')
-    print('\t\t', '*' * 48) #my attempt at formatting the introduction message to make it nicer
+    
 
 
 def show_instructions():
     """Display instructions on how to move between rooms and get items."""
-    print('\tValid movement commands are {go North, South, East or West}\n'
+    print('\n\tValid movement commands are {go North, South, East or West}\n'
           '\tValid item commands are {get item} to add nearby item to inventory.\n'
           '\t\t\tType "exit" at anytime to quit.')
     print('\t\t', '*' * 48, '') #my attempt at formatting the introduction message to make it nicer
@@ -57,10 +59,16 @@ def player_move(current_room, direction):
 
     if direction in rooms[current_room].keys():
         print(f'You move {direction}...')
+        time.sleep(1) #used to delay looping so user can see move direction msg for immersion
         new_room = rooms[current_room][direction]
         return new_room
+    elif direction in ['North', 'South', 'East', 'West']:
+        print(f'You cannot go {direction.lower()} from the {current_room}.')
+        time.sleep(1.3) #used to delay looping so user can see move direction msg for immersion
+        return current_room
     else:
-        input(f'You cannot go {direction.lower()} from the {current_room}. Press enter to continue.')
+        print('You want me to go where?! That is not a valid direction.')
+        time.sleep(1.3) #used to delay looping so user can see move direction msg for immersion
         return current_room
 
  
@@ -134,8 +142,8 @@ def main():
             print('\nWhy did you abandon the castle!? :(')
             current_room = 'Exit' #set current room to exit 
         else:
-            print('That is not a valid command!') #if no authorized commands entered, output message and offer to repeat instructions, then repeat loop.
-            repeat_instruct = input('Type {yes} to view instructions, or enter to continue.')
+            print('\nThat is not a valid command!') #if no authorized commands entered, output message and offer to repeat instructions, then repeat loop.
+            repeat_instruct = input('Type {yes} to view instructions, or enter to continue: ')
             if repeat_instruct == 'yes':
                     show_instructions()
     if current_room == 'Exit':
