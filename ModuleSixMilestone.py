@@ -15,7 +15,7 @@ def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
           
 
-def greeting():
+def greet_player():
     """Greet player and introduce game plot"""
     print('\n\n\t\t', '*' * 48) #my attempt at formatting the introduction message to make it nicer
     print('\tWelcome to the dragon-game, where you must search a castle for 6 items\n'
@@ -31,7 +31,7 @@ def show_instructions():
     input('\t\t\tPress enter to continue.') #allow user to read instructions and enter when done before screen clears
 
 
-def player_status(current_room, inventory):
+def display_player_status(current_room, inventory):
     """
     Display inventory, current location, and current rooms description
     
@@ -43,7 +43,7 @@ def player_status(current_room, inventory):
     print(f'Inventory: {inventory}')
 
 
-def player_move(current_room, direction):
+def move_player(current_room, direction):
     """
     Move the player to a new room based on the provided direction.
 
@@ -71,7 +71,7 @@ def player_move(current_room, direction):
         return current_room
 
 
-def get_item(current_room, item, inventory):
+def obtain_item(current_room, item, inventory):
     """
     Get_item function to be completed in Project 2
     Obtain an item and add it to the player's inventory if it exists in the current room.
@@ -111,7 +111,7 @@ room_intro_msg = {
 #}
 
 
-def main():
+def main_game_loop():
     """
     This function initializes the Dragon Game, displaying the game's greeting and instructions. It manages the game loop,
     where the player can interact with the game by entering commands to move between rooms and obtain items.
@@ -121,23 +121,22 @@ def main():
     current_room = 'Great Hall' #tracks current room
     command = 'null' #initialize command to 'null' prior to gameplay loop
 
-    greeting() #call greeting() for initial display
+    greet_player() #call greeting() for initial display
     show_instructions() #call show_instructions for initial display
 
     while current_room != 'Exit': 
         clear_screen() #call clear screen function at beginning of each turn
-        player_status(current_room, inventory) #call player_status() with current_room as argument to display customized status page
+        display_player_status(current_room, inventory) #call player_status() with current_room as argument to display customized status page
         
         command = input('What is your next move?: ').title().split() #titalizes the user command and splits it into a list called command to mesh with dict room name format
         if not command: #if no command (user presses enter) repeat loop. this ensures no list index error arrises
             continue
         if command[0] == 'Get' and len(command) == 2: 
-            get_item(current_room, command[1], inventory) #call get item function with current room, second word of user command, and inventory as arguments
+            obtain_item(current_room, command[1], inventory) #call get item function with current room, second word of user command, and inventory as arguments
         elif command[0] == 'Go' and len(command) == 2:
-            new_room = player_move(current_room, command[1]) #call player_move function with current room and second word of user command as arguments, assigns return value to new room
+            new_room = move_player(current_room, command[1]) #call player_move function with current room and second word of user command as arguments, assigns return value to new room
             current_room = new_room #current room is new room
         elif command[0] == 'Exit':
-            print('\nWhy did you abandon the castle!? :(')
             current_room = 'Exit' #set current room to exit 
         else:
             print('\nThat is not a valid command!') #if no authorized commands entered, output message and offer to repeat instructions, then repeat loop.
@@ -145,6 +144,7 @@ def main():
             if repeat_instruct == 'yes':
                     show_instructions()
     if current_room == 'Exit':
+        print('\nWhy did you abandon the castle!? :(')
         exit()
 
 
@@ -153,4 +153,4 @@ if __name__ == '__main__':
     This if statement only operates if the file is run as the main program
     When True, calls main() function to begin the game.
     """
-    main()
+    main_game_loop()
