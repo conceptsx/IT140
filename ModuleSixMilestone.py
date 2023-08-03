@@ -20,7 +20,6 @@ def greeting():
     print('\n\n\t\t', '*' * 48) #my attempt at formatting the introduction message to make it nicer
     print('\tWelcome to the dragon-game, where you must search a castle for 6 items\n'
           '\tand confront the dragon. Make sure you have all items before the fight')
-    
 
 
 def show_instructions():
@@ -71,7 +70,7 @@ def player_move(current_room, direction):
         time.sleep(1.3) #used to delay looping so user can see move direction msg for immersion
         return current_room
 
- 
+
 def get_item(current_room, item, inventory):
     """
     Get_item function to be completed in Project 2
@@ -89,7 +88,6 @@ def get_item(current_room, item, inventory):
     return -1
 
 
-
 #A dictionary for the simplified dragon text game
 #The dictionary links a room to other rooms.
 rooms = { 
@@ -98,6 +96,7 @@ rooms = {
         'Cellar': {'West': 'Bedroom'}
     }
 
+
 #Dictionary to link a introduction message for each room.
 room_intro_msg = {
     'Great Hall' : 'A fantastic hall surrounds you, but its emptiness overwhelms you.',
@@ -105,11 +104,11 @@ room_intro_msg = {
     'Cellar' : 'A dimly lit cellar blocks most of your vision, laced with cobwebs and chilly air.'
 }
 
+
 #Pending dictionary to link an item pick up message for each item.
 #item_pickup_msg = { 
 #
 #}
-
 
 
 def main():
@@ -118,7 +117,6 @@ def main():
     where the player can interact with the game by entering commands to move between rooms and obtain items.
     The loop continues until the player decides to exit the game by typing 'exit'.
     """
-
     inventory = [] #create empty list for inventory
     current_room = 'Great Hall' #tracks current room
     command = 'null' #initialize command to 'null' prior to gameplay loop
@@ -130,7 +128,7 @@ def main():
         clear_screen() #call clear screen function at beginning of each turn
         player_status(current_room, inventory) #call player_status() with current_room as argument to display customized status page
         
-        command = input('What is your next move?\n').title().split() #titalizes the user command and splits it into a list called command to mesh with dict room name format
+        command = input('What is your next move?: ').title().split() #titalizes the user command and splits it into a list called command to mesh with dict room name format
         if not command: #if no command (user presses enter) repeat loop. this ensures no list index error arrises
             continue
         if command[0] == 'Get' and len(command) == 2: 
@@ -148,7 +146,6 @@ def main():
                     show_instructions()
     if current_room == 'Exit':
         exit()
-        
 
 
 if __name__ == '__main__':
