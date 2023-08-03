@@ -42,7 +42,6 @@ def player_status(current_room, inventory):
     print(f'Inventory: {inventory}')
 
 
-
 def player_move(current_room, direction):
     """
     Move the player to a new room based on the provided direction.
