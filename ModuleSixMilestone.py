@@ -50,10 +50,6 @@ def player_move(current_room, direction):
     direction is valid for the current room by accessing rooms dictionary. If the direction is valid, the player is moved
     to the new room, and the name of the new room is returned.
 
-    Parameters:
-        current_room: The name of the current room.
-        direction: The direction in which the player wants to move (e.g., 'North', 'South', 'East', 'West').
-
     Returns:
         string: The name of the new room if the movement is successful, otherwise the current room name.
     """
@@ -77,11 +73,6 @@ def get_item(current_room, item, inventory):
     It checks if the item exists in the current room and if it does, adds it to the player's inventory.
     If the item is already in the inventory, it displays a message that the room has already been searched.
     If there is no item in the room, it displays that the room is empty.
-
-    Parameters:
-        current_room: The name of the current room.
-        item: The name of the item to obtain and add to the inventory.
-        inventory: The player's inventory as a list of items.
 
     Returns:
         list: The updated player's inventory after obtaining the item.
