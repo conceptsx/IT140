@@ -28,7 +28,8 @@ def greet_player():
 def show_instructions():
     """Display instructions on how to move between rooms and get items."""
     print('\nValid movement commands are {\033[1m\033[4mgo North, South, East or West\033[0m}'
-          '\nValid item commands are {\033[1m\033[4mget item name\033[0m} to pick up an item.\n'
+          '\nValid item commands are {\033[1m\033[4mget item name\033[0m} to pick up an item.'
+          '\nTo use your map you must first acquire it, then type {\033[1m\033[4mmap\033[0m} to display.\n'
           'Type "exit" at anytime to quit.')
     print('-' * 70)
     input('Press enter to continue.') #allow user to read instructions and enter when done before screen clears
@@ -96,7 +97,7 @@ def obtain_item(current_room, item, inventory):
             clear_screen()
             print(f'You acquire the {item.lower()}!')
             print(f'{item_descriptions[item]}')
-            time.sleep(4.0)
+            time.sleep(2.0)
             inventory.append(item)
             return inventory
         else:
@@ -108,19 +109,135 @@ def obtain_item(current_room, item, inventory):
         print('It seems this domain doesn\'t have what you are seeking...')
         time.sleep(1.3)
         return inventory
+    
+
+def display_map(current_room, inventory):
+    if 'Map' in inventory:
+        map_text = rooms[current_room].get('Map', 'There is no map for this room.')
+        clear_screen()
+        print(map_text)
+        print('-' * 100)
+        input('\n\t\t\t\tYour current location is highlighted.\n\t\t\t\t     Press enter to continue.')
+    else:
+        print('\nYou have not collected the map yet.')
+        time.sleep(1.3)
+
 
 
 #A dictionary for the simplified dragon text game
 #The dictionary links a room to other rooms.
 rooms = { 
-        'Mental Haze': {'South' : 'Gallery of Joy', 'North' : 'The Labryinth of Confusion', 'East' : 'Ocean of Tears', 'West': 'Childhood Room'},
-        'Gallery of Joy' : {'North' : 'Mental Haze', 'East' : 'Chamber of Courage', 'Item' : 'Laughter-Filled Journal'},
-        'Chamber of Courage' : {'West' : 'Gallery of Joy', 'Item' : 'Medallion Of Bravery'},
-        'Childhood Room' : {'East' : 'Mental Haze', 'Item' : 'Old Teddy Bear'},
-        'Ocean of Tears' : {'West' : 'Mental Haze', 'North' : 'The Mirror Room', 'Item' : 'Tear-Stained Letter'},
-        'Abandoned Park' : {'East' : 'The Labryinth of Confusion', 'Item' : 'Faded Photograph'},
-        'The Labryinth of Confusion' : {'South' : 'Mental Haze', 'West' : 'Abandoned Park', 'Item' : 'Enigmatic Puzzle Piece'},
-        'The Mirror Room' : {'South' : 'Ocean of Tears', 'Villain' : 'The Mirror Demon'}
+        'Mental Haze': {
+            'South' : 'Gallery of Joy', 
+            'North' : 'The Labryinth of Confusion', 
+            'East' : 'Ocean of Tears', 
+            'West' : 'Childhood Room',
+            'Item' : 'Map',
+            'Map': '''
+            [ Abandoned Park ]---------[ Labryinth of Confusion ]       [ The Mirror Room ]
+                                                  |                              |
+                                                  |                              |
+            [ Childhood Room ]------------[ \033[1m\033[4mMental Haze\033[0m] ]---------------[ Ocean of Tears ]
+                                                  |
+                                                  |
+                                         [ Gallery of Joy ]----------[ Chamber of Courage ]
+            ''',
+            },
+        'Gallery of Joy' : {
+            'North' : 'Mental Haze',
+            'East' : 'Chamber of Courage',
+            'Item' : 'Laughter-Filled Journal',
+            'Map': '''
+            [ Abandoned Park ]---------[ Labryinth of Confusion ]       [ The Mirror Room ]
+                                                  |                              |
+                                                  |                              |
+            [ Childhood Room ]------------[ Mental Haze ]---------------[ Ocean of Tears ]
+                                                  |
+                                                  |
+                                         [ \033[1m\033[4mGallery of Joy\033[0m ]----------[ Chamber of Courage ]
+            ''',
+            
+            },
+        'Chamber of Courage' : {
+            'West' : 'Gallery of Joy',
+            'Item' : 'Medallion Of Bravery',
+            'Map': '''
+            [ Abandoned Park ]---------[ Labryinth of Confusion ]       [ The Mirror Room ]
+                                                  |                              |
+                                                  |                              |
+            [ Childhood Room ]------------[ Mental Haze ]---------------[ Ocean of Tears ]
+                                                  |
+                                                  |
+                                         [ Gallery of Joy ]----------[ \033[1m\033[4mChamber of Courage\033[0m ]
+            ''',
+            },
+        'Childhood Room' : {
+            'East' : 'Mental Haze',
+            'Item' : 'Old Teddy Bear',
+            'Map': '''
+            [ Abandoned Park ]---------[ Labryinth of Confusion ]       [ The Mirror Room ]
+                                                  |                              |
+                                                  |                              |
+            [ \033[1m\033[4mChildhood Room\033[0m ]------------[ Mental Haze ]---------------[ Ocean of Tears ]
+                                                  |
+                                                  |
+                                         [ Gallery of Joy ]----------[ Chamber of Courage ]
+            ''',
+            },
+        'Ocean of Tears' : {
+            'West' : 'Mental Haze',
+            'North' : 'The Mirror Room',
+            'Item' : 'Tear-Stained Letter',
+            'Map': '''
+            [ Abandoned Park ]---------[ Labryinth of Confusion ]       [ The Mirror Room ]
+                                                  |                              |
+                                                  |                              |
+            [ Childhood Room ]------------[ Mental Haze ]---------------[ \033[1m\033[4mOcean of Tears\033[0m ]
+                                                  |
+                                                  |
+                                         [ Gallery of Joy ]----------[ Chamber of Courage ]
+            ''',
+            },
+        'Abandoned Park' : {
+            'East' : 'The Labryinth of Confusion',
+            'Item' : 'Faded Photograph',
+            'Map': '''
+            [ \033[1m\033[4mAbandoned Park\033[0m ]---------[ Labryinth of Confusion ]       [ The Mirror Room ]
+                                                  |                              |
+                                                  |                              |
+            [ Childhood Room ]------------[ Mental Haze ]---------------[ Ocean of Tears ]
+                                                  |
+                                                  |
+                                         [ Gallery of Joy ]----------[ Chamber of Courage ]
+            ''',
+            },
+        'The Labryinth of Confusion' : {
+            'South' : 'Mental Haze',
+            'West' : 'Abandoned Park',
+            'Item' : 'Enigmatic Puzzle Piece',
+            'Map': '''
+            [ Abandoned Park ]---------[ \033[1m\033[4mLabryinth of Confusion\033[0m ]       [ The Mirror Room ]
+                                                  |                              |
+                                                  |                              |
+            [ Childhood Room ]------------[ Mental Haze ]---------------[ Ocean of Tears ]
+                                                  |
+                                                  |
+                                         [ Gallery of Joy ]----------[ Chamber of Courage ]
+            ''',
+            },
+        'The Mirror Room' : {
+            'South' : 'Ocean of Tears',
+             'Villain' : 'The Mirror Demon',
+            'Map': '''
+            [ Abandoned Park ]---------[ Labryinth of Confusion ]       [ \033[1m\033[4mThe Mirror Room\033[0m ]
+                                                  |                              |
+                                                  |                              |
+            [ Childhood Room ]------------[ Mental Haze ]---------------[ Ocean of Tears ]
+                                                  |
+                                                  |
+                                         [ Gallery of Joy ]----------[ Chamber of Courage ]
+            ''',
+            }
     }
 
 
@@ -128,7 +245,7 @@ rooms = {
 room_intro_msg = {
     'Mental Haze' : 'You find yourself in a dimly lit chamber, surrounded by an ethereal mist.\n'
                     'A sense of uncertainty lingers in the air as you stand at the threshold of your mind.\n'
-                    'This is where your journey begins, where you must confront the shadows of your past.\n'
+                    'A shriveled \033[1m\033[4mmap\033[0m appears out of the mist, shining as if beckoning you to reach out.\n'
                     'Take a deep breath, for the path ahead is laden with memories waiting to be unraveled.',
     'Childhood Room': 'As you step through the door, a rush of nostalgia embraces you.\n'
                       'The room exudes the innocence of your childhood. You can almost hear the laughter\n'
@@ -153,7 +270,7 @@ room_intro_msg = {
     'The Mirror Room': 'Dread fills your heart as you approach the final room.\n'
                        'The reflective surfaces distort your image, revealing the shadows that lurk within.\n'
                        'This room houses the Mirror Demon, an embodiment of your innermost fears and regrets.\n'
-                       'Confronting this sinister apparition is your last trial before finding inner peace.',
+                       'Confronting this sinister apparition is your last trial before finding inner peace.'
 }
 
 
@@ -164,7 +281,8 @@ item_descriptions = {
     'Enigmatic Puzzle Piece': 'A mysterious puzzle piece representing the confusing and unresolved memories of your past.',
     'Medallion Of Bravery': 'A shining medallion symbolizing the courage and determination you displayed in a challenging moment.',
     'Tear-Stained Letter': 'A heartfelt letter filled with unspoken emotions, revealing the depth of past sorrows.',
-    'Laughter-Filled Journal': 'A joyful journal brimming with laughter and delightful memories, inviting you to relive happy moments.'
+    'Laughter-Filled Journal': 'A joyful journal brimming with laughter and delightful memories, inviting you to relive happy moments.',
+    'Map' : 'A worn piece of parchment containing directions, you recognize the writing as your own... have you been here before?'
 }
 
 
@@ -189,7 +307,7 @@ def main_game_loop():
             rebuttal = input('Do you \033[1m\033[4mconfront\033[0m the mirror demon or \033[1m\033[4mcollect\033[0m your thoughts?: ') #user input if to continue
             if rebuttal.lower() == 'confront':
                 clear_screen()
-                if len(inventory) >= 6: # if user chooses to continue to final room, and inventory meets win condition, display win statement
+                if len(inventory) >= 7: # if user chooses to continue to final room, and inventory meets win condition, display win statement
                     print('As you stare into the shattered reflections of your past, you gain newfound clarity and strength.\n'
                         'The triumph over your own demons has unlocked the path to inner peace and self-acceptance.\n\n'
                         'You slowly regain \033[1m\033[4mconsciousness\033[0m.\n')
@@ -203,6 +321,11 @@ def main_game_loop():
                     exit()
             elif rebuttal.lower() == 'collect': # if user chooses to retreat, move them back south and display current status
                 current_room = move_player(current_room, 'South')
+                time.sleep(1.3)
+                clear_screen()
+                display_player_status(current_room, inventory)
+            elif rebuttal.lower() == 'map':
+                print('\nYou cannot use your map right now!')
                 time.sleep(1.3)
                 clear_screen()
                 display_player_status(current_room, inventory)
@@ -224,6 +347,8 @@ def main_game_loop():
         elif command[0] == 'Go' and len(command) == 2:
             new_room = move_player(current_room, command[1]) #call player_move function with current room and second word of user command as arguments, assigns return value to new room
             current_room = new_room #current room is new room
+        elif command[0] == 'Map':
+            display_map(current_room, inventory)
         elif command[0] == 'Exit':
             current_room = 'Exit' #set current room to exit 
         else:
