@@ -84,6 +84,8 @@ def obtain_item(current_room, item, inventory):
     Returns:
         list: The updated player's inventory after obtaining the item.
     """
+    #Split(' ') to get rid of the split() fuction in command, 
+    # for get/go do a slice[0] and slice [1:] then a join(' ') titleized to get item name
     input('FIXME: finish get_item function -- enter to continue')
     return -1
 
