@@ -1,8 +1,7 @@
 # Cameron J. Freed
 # IT 140
 # Southern New Hampshire University
-# Module 7 -- Project Two
-# Simplified Version of Game
+# Module 8 -- Project Two
 
 
 
