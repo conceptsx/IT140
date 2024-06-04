@@ -8,10 +8,10 @@
 import os #import os for clear screen function
 import time #import time -- was using input(press enter) to slow progress before screen clear, but time.sleep works great
 
-
-def clear_screen():
+def clear_screen(): 
     """Clears screen to improve readability, had to google this one because I could not stand game testing with a clogged terminal"""
     os.system('cls' if os.name == 'nt' else 'clear')
+    """CLEARS"""
           
 
 def greet_player():
