@@ -1,9 +1,11 @@
 import random
 import os
+import time
 
 def clear_screen():
     """Clears the terminal screen for better readability."""
     os.system('cls' if os.name == 'nt' else 'clear')
+    time.sleep(2.5)
 
 def get_username():
     """Input name, quit for 'no', greet player, then return username"""
